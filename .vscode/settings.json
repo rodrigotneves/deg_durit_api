@@ -1,0 +1,72 @@
+{
+  // Editor
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.minimap.enabled": false,
+  "editor.fontSize": 16,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "editor.rulers": [79],
+  "editor.fontFamily": "'Fira Code', Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 5000,
+
+  // Terminal
+  "terminal.integrated.fontSize": 16,
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+
+  // Debug
+  "debug.console.fontSize": 16,
+  "window.zoomLevel": 0,
+
+  // Git
+  "git.enableSmartCommit": true,
+
+  // Breadcrumbs
+  "breadcrumbs.enabled": true,
+
+  // Emmet para Django
+  "emmet.includeLanguages": {
+    "django-html": "html"
+  },
+
+  // Associações de arquivos
+  "files.associations": {
+    "*.html": "html",
+    "**/templates/*.html": "django-html",
+    "**/templates/*": "django-txt",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  },
+
+  // Python
+  
+  // Pylint
+  "pylint.enabled": true,
+  "pylint.path": [
+    "venv/bin/python",
+    "-m",
+    "pylint"
+  ],
+  "pylint.args": [
+    "--load-plugins=pylint_django",
+    "--errors-only",
+    "--django-settings=deg.settings",
+  ],
+
+  // Code Runner
+  "code-runner.clearPreviousOutput": true,
+  "code-runner.executorMap": {
+    "python": "./venv/bin/python -u",
+    "javascript": "node",
+    "shellscript": "bash"
+  }
+}
