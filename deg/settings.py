@@ -29,7 +29,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # TODO: Remover em produção
 INTERNAL_IPS = [
@@ -47,6 +47,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Meus apps
+    "perfil.apps.PerfilConfig",
+    "solicitacao.apps.SolicitacaoConfig",
+    # Apps de terceiros
+    "rest_framework_api_key",
+    "ninja_extra",
     # TODO: Remover debug_toolbar quando for para produção
     "debug_toolbar",
 ]
@@ -59,10 +65,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # Meus apps
-    "perfil",
-    # Apps de terceiros
-    "rest_framework_api_key",
     # TODO: Remover debug_toolbar quando for para produção
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
