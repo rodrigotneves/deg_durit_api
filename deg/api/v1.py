@@ -4,14 +4,14 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from ninja import File, Query
+from ninja.errors import HttpError
 from ninja.files import UploadedFile
 from ninja_extra import NinjaExtraAPI, api_controller, route
 
-from perfil.schemas import UsuarioOut
+from deg.permissions import HasAPIKey
+from perfil.schemas import PerfilOut, UsuarioOut
 from solicitacao.models import AnexoSolicitacao, SolicitacaoOrcamento
 from solicitacao.schemas import SolicitacaoOrcamentoIn, SolicitacaoOrcamentoOut
-
-from deg.permissions import HasAPIKey
 
 api = NinjaExtraAPI()
 
@@ -24,23 +24,46 @@ class UsuarioController:
         user_model = get_user_model()
         usuarios = user_model.objects.select_related("perfil").all()
         return [
-            {
-                "id": u.id,
-                "username": u.username,
-                "email": u.email,
-                "first_name": u.first_name,
-                "last_name": u.last_name,
-                "perfil": {
-                    "phone_number": (
-                        str(u.perfil.phone_number)
-                        if u.perfil and u.perfil.phone_number
-                        else None
-                    ),
-                    "codigo_vendedor": u.perfil.codigo_vendedor,
-                },
-            }
+            UsuarioOut(
+                id=u.id,
+                username=u.username,
+                email=u.email,
+                first_name=u.first_name,
+                last_name=u.last_name,
+                perfil=PerfilOut(
+                    phone_number=u.perfil.phone_number if u.perfil else None,
+                    codigo_vendedor=u.perfil.codigo_vendedor if u.perfil else None,
+                ),
+            )
             for u in usuarios
         ]
+
+    @route.get("/vendedor/{phone}", response=UsuarioOut)
+    def listar_por_telefone(self, phone: str):
+
+        user_model = get_user_model()
+        try:
+            usuario = user_model.objects.select_related("perfil").get(
+                perfil__phone_number=phone
+            )
+        except user_model.DoesNotExist:
+            raise HttpError(
+                404, f"Usuário com telefone {phone} não encontrado"
+            )
+
+        return UsuarioOut(
+            id=usuario.id,
+            username=usuario.username,
+            email=usuario.email,
+            first_name=usuario.first_name,
+            last_name=usuario.last_name,
+            perfil=PerfilOut(
+                phone_number=usuario.perfil.phone_number if usuario.perfil else None,
+                codigo_vendedor=(
+                    usuario.perfil.codigo_vendedor if usuario.perfil else None
+                ),
+            ),
+        )
 
 
 @api_controller("/solicitacoes", tags=["Solicitações"], auth=HasAPIKey())

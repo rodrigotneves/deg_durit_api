@@ -5,7 +5,7 @@ from ninja import Schema
 
 class PerfilOut(Schema):
     codigo_vendedor: str
-    phone_number: Optional[str]
+    phone_number: str
 
 
 class UsuarioOut(Schema):

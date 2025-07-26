@@ -21,7 +21,6 @@ class SolicitacaoOrcamento(models.Model):
     )
     cliente = models.CharField("Nome do Cliente", max_length=100)
     descricao = models.TextField("Descrição da Solicitação")
-
     criado_em = models.DateTimeField("Criado em", auto_now_add=True)
     atualizado_em = models.DateTimeField("Atualizado em", auto_now=True)
 

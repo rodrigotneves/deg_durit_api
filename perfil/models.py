@@ -1,16 +1,17 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
+
+# from phonenumber_field.modelfields import PhoneNumberField
 
 
 # Create your models here.
 class Perfil(models.Model):
     codigo_vendedor = models.CharField(
-        "Código do Vendedor", max_length=10, blank=False, null=False, unique=True
-    )
+        "Código do Vendedor", max_length=10, blank=True
+    )  # noqa: E501
     user_model = get_user_model()
     user = models.OneToOneField(user_model, on_delete=models.CASCADE)
-    phone_number = PhoneNumberField(region=None, blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         verbose_name = "Perfil"
